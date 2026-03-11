@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "missing_files": [],
+  "rule_checks": {
+    "scope_gemini_only": true,
+    "sso_required": true,
+    "rate_limit_user_ip_global": true,
+    "clarification_loop": true,
+    "safety_escalation": true,
+    "taxonomy_top20": true,
+    "web_chat_ui": true,
+    "feedback_endpoint": true,
+    "observability_prometheus": true,
+    "jwt_sso_path": true,
+    "deployment_manifests": true,
+    "weekly_model_refresh": true,
+    "secret_rotation_workflow": true,
+    "redis_state_backend": true,
+    "ip_reputation_store": true,
+    "k8s_hpa": true,
+    "eval_dataset_500_plus": true
+  },
+  "notes": {
+    "eval_dataset": "dataset size: 600",
+    "unimplemented_or_partial": []
+  }
+}

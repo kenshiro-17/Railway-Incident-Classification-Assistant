@@ -1,0 +1,36 @@
+name: Weekly Gemini Model Refresh
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+jobs:
+  refresh-model:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Refresh Gemini model
+        env:
+          RIA_GEMINI_API_KEY: ${{ secrets.RIA_GEMINI_API_KEY }}
+        run: python scripts/refresh_gemini_model.py
+      - name: Create Pull Request if changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: refresh Gemini model"
+          branch: codex/weekly-gemini-model-refresh
+          title: "chore: weekly Gemini model refresh"
+          body: "Automated weekly Gemini model compatibility check and refresh."
+          add-paths: |
+            .env.example
+            app/data/model_update_report.json

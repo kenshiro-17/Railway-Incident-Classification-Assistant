@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ria-assistant
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ria-assistant
+  template:
+    metadata:
+      labels:
+        app: ria-assistant
+    spec:
+      containers:
+      - name: ria
+        image: ria:latest
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: ria-config
+        - secretRef:
+            name: ria-secrets
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1024Mi"
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: ["ALL"]
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 20
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

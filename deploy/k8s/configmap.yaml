@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ria-config
+data:
+  RIA_ENVIRONMENT: "prod"
+  RIA_GEMINI_MODEL: "gemini-2.0-flash"
+  RIA_SSO_MODE: "jwt"
+  RIA_REQUIRE_JWT_IN_PROD: "true"
+  RIA_GEMINI_FAIL_CLOSED_IN_PROD: "false"
+  RIA_FALLBACK_PROVIDER_ENABLED: "true"
+  RIA_ALLOWED_ORIGINS: "https://assistant.company.example"
+  RIA_TRUSTED_HOSTS: "assistant.company.example"
+  RIA_MAX_REQUEST_BYTES: "65536"
+  RIA_WAF_ENABLED: "true"
+  RIA_IP_BLOCKLIST_PATH: "app/data/ip_blocklist.txt"
+  RIA_REDIS_URL: "redis://redis.default.svc.cluster.local:6379/0"
+  RIA_STATE_TTL_SECONDS: "7200"
+  RIA_INTERNAL_API_TOKEN: "set-via-secret-preferred"
+  RIA_REQUIRE_MTLS_FOR_INTERNAL: "true"
+  RIA_DDOS_BLOCK_AFTER_VIOLATIONS: "25"
+  RIA_DDOS_BLOCK_WINDOW_SECONDS: "300"
+  RIA_DDOS_BLOCK_DURATION_SECONDS: "900"
+  RIA_OTEL_ENABLED: "true"
+  RIA_OTEL_SERVICE_NAME: "ria-assistant"
+  RIA_OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.default.svc.cluster.local:4318/v1/traces"

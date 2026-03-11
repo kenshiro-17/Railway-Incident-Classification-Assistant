@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ria-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "25"
+    nginx.ingress.kubernetes.io/limit-connections: "20"
+    nginx.ingress.kubernetes.io/proxy-body-size: "64k"
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    nginx.ingress.kubernetes.io/enable-owasp-modsecurity-crs: "true"
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      SecRuleEngine On
+      SecRule REQUEST_URI "@beginsWith /chat" "id:1001,phase:2,t:none,deny,status:403,msg:'WAF blocked suspicious chat request',chain"
+      SecRule REQUEST_BODY "@rx (?i)(ignore\\s+previous\\s+instructions|union\\s+select|<script)"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: assistant.company.example
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ria-service
+            port:
+              number: 80

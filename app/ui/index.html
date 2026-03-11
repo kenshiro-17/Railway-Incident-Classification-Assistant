@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Railway Incident Assistant</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="panel hero fade-in">
+      <div>
+        <h1>Railway Incident Assistant</h1>
+        <div class="subtitle">Structured triage, evidence-linked recommendations, and safety-first escalation.</div>
+      </div>
+      <div class="badge">Pilot Mode · One-line Deployment</div>
+    </section>
+
+    <section class="panel fade-in">
+      <div class="form">
+        <div class="grid-2">
+          <div>
+            <label>Bearer Token</label>
+            <input id="token" value="user:pilot_worker|role:worker" />
+          </div>
+          <div>
+            <label>Language</label>
+            <select id="lang"><option value="en">English</option><option value="de">German</option></select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <label>Route / Line</label>
+            <input id="route" value="Line-A" />
+          </div>
+          <div>
+            <label>Train Type</label>
+            <input id="train" value="EMU" />
+          </div>
+        </div>
+
+        <div>
+          <label>Symptoms (what failed, when, and sequence)</label>
+          <textarea id="symptoms">Brake pressure dropped and emergency braking activated near station approach.</textarea>
+        </div>
+
+        <div>
+          <label>Actions already taken</label>
+          <textarea id="actions">Operator reduced speed, isolated suspected carriage, informed control center.</textarea>
+        </div>
+
+        <div>
+          <label>User message</label>
+          <textarea id="message">Classify this incident and suggest efficient next steps.</textarea>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" id="send">Classify Incident</button>
+          <button class="btn-ghost" id="clear">Reset Form</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel fade-in">
+      <div class="results">
+        <div class="kpi-row">
+          <div class="kpi"><div class="label">Predicted Class</div><div class="value" id="predicted">-</div></div>
+          <div class="kpi"><div class="label">Confidence</div><div class="value" id="confidence">-</div></div>
+          <div class="kpi"><div class="label">Escalation</div><div class="value" id="escalation">-</div></div>
+        </div>
+
+        <div class="result-card"><strong>Clarifying Questions</strong><ul id="questions" class="list"></ul></div>
+        <div class="result-card"><strong>Suggested Next Steps</strong><ul id="steps" class="list"></ul></div>
+        <div class="result-card"><strong>Similar Historical Incidents</strong><div id="similar" class="mono"></div></div>
+        <div class="result-card"><strong>Trace</strong><div class="mono" id="trace">No trace yet.</div></div>
+      </div>
+    </section>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>

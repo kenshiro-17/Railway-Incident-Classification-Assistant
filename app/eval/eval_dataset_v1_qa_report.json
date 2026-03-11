@@ -1,0 +1,35 @@
+{
+  "total": 600,
+  "class_counts": {
+    "BRAKE_SYSTEM_FAILURE": 30,
+    "DOOR_MALFUNCTION": 30,
+    "HVAC_FAILURE": 30,
+    "TRACTION_POWER_LOSS": 30,
+    "SIGNAL_COMMUNICATION_FAULT": 30,
+    "PANTOGRAPH_DEFECT": 30,
+    "WHEEL_FLAT_SPOTTING": 30,
+    "TRACK_CIRCUIT_ANOMALY": 30,
+    "ONBOARD_FIRE_ALERT": 30,
+    "SMOKE_DETECTED": 30,
+    "EMERGENCY_BRAKE_ACTIVATION": 30,
+    "PASSENGER_ALARM_ACTIVATION": 30,
+    "COUPLING_FAILURE": 30,
+    "BATTERY_AUX_POWER_FAILURE": 30,
+    "CONTROL_SOFTWARE_FAULT": 30,
+    "BRAKE_PRESSURE_LEAK": 30,
+    "DERAILMENT_INDICATOR_EVENT": 30,
+    "OBSTRUCTION_ON_TRACK": 30,
+    "OVERHEAT_BEARING_ALERT": 30,
+    "UNKNOWN_MECHANICAL_NOISE": 30
+  },
+  "language_counts": {
+    "de": 200,
+    "en": 400
+  },
+  "severity_counts": {
+    "low": 103,
+    "critical": 300,
+    "high": 101,
+    "medium": 96
+  }
+}

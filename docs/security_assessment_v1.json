@@ -1,0 +1,43 @@
+{
+  "total": 6,
+  "passed": 6,
+  "failed": 0,
+  "findings": [
+    {
+      "name": "missing_auth",
+      "status": 401,
+      "expected": 401,
+      "pass": true
+    },
+    {
+      "name": "tampered_token",
+      "status": 401,
+      "expected": 401,
+      "pass": true
+    },
+    {
+      "name": "internal_no_token",
+      "status": 401,
+      "expected": 401,
+      "pass": true
+    },
+    {
+      "name": "waf_signature_block",
+      "status": 400,
+      "expected": 400,
+      "pass": true
+    },
+    {
+      "name": "strict_mode_quarantine",
+      "status": 200,
+      "expected": 200,
+      "pass": true
+    },
+    {
+      "name": "rate_limit_pressure",
+      "status": 429,
+      "expected": "200/429",
+      "pass": true
+    }
+  ]
+}
