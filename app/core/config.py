@@ -52,6 +52,8 @@ class Settings(BaseSettings):
     prompt_injection_quarantine_seconds: int = 1800
     redis_url: str = ""
     state_ttl_seconds: int = 7200
+    bootstrap_retrieval_from_eval_dataset: bool = True
+    retrieval_eval_dataset_path: str = "app/eval/eval_dataset_v1.json"
 
     gemini_fail_closed_in_prod: bool = True
     fallback_provider_enabled: bool = True

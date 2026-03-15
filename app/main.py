@@ -14,6 +14,7 @@ from app.core.config import settings
 from app.core.middleware import SecurityMiddleware
 from app.core.metrics import http_request_latency_seconds, http_requests_total
 from app.core.telemetry import setup_telemetry
+from app.services.retrieval import retrieval_store
 
 app = FastAPI(title=settings.app_name)
 setup_telemetry()
@@ -32,6 +33,22 @@ app.add_middleware(TrustedHostMiddleware, allowed_hosts=trusted_hosts)
 app.add_middleware(SecurityMiddleware)
 
 app.include_router(router)
+
+
+@app.on_event("startup")
+async def bootstrap_retrieval_data() -> None:
+    if not settings.bootstrap_retrieval_from_eval_dataset:
+        return
+    dataset_path = Path(settings.retrieval_eval_dataset_path)
+    if not dataset_path.exists():
+        return
+    result = retrieval_store.ingest_eval_dataset_json(str(dataset_path))
+    print(
+        "Retrieval bootstrap loaded eval dataset:",
+        f"added={result['added']}",
+        f"rejected={result['rejected']}",
+        f"duplicate={result['duplicate']}",
+    )
 
 
 @app.middleware("http")

@@ -1,0 +1,33 @@
+flowchart TB
+    users["Users"]
+    subgraph k8s["Kubernetes Cluster"]
+        ingress["NGINX Ingress\nRate Limits + ModSecurity + mTLS"]
+        service["ClusterIP Service"]
+        subgraph pods["RIA Deployment\n3 replicas"]
+            pod1["FastAPI Pod"]
+            pod2["FastAPI Pod"]
+            pod3["FastAPI Pod"]
+        end
+        otel["OTEL Collector"]
+        redis["Redis"]
+    end
+    gemini["Google Gemini API"]
+    idp["Identity Provider / JWKS"]
+
+    users --> ingress
+    ingress --> service
+    service --> pod1
+    service --> pod2
+    service --> pod3
+    pod1 --> redis
+    pod2 --> redis
+    pod3 --> redis
+    pod1 --> gemini
+    pod2 --> gemini
+    pod3 --> gemini
+    pod1 --> idp
+    pod2 --> idp
+    pod3 --> idp
+    pod1 --> otel
+    pod2 --> otel
+    pod3 --> otel

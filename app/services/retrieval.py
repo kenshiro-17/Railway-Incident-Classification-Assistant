@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List
@@ -76,6 +77,35 @@ class HistoricalRetrievalStore:
                 )
             )
             self.incident_ids.add(incident_id)
+            added += 1
+        return {"added": added, "rejected": rejected, "duplicate": duplicate}
+
+    def ingest_eval_dataset_json(self, path: str) -> Dict[str, int]:
+        added = 0
+        rejected = 0
+        duplicate = 0
+        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+        scenarios = payload.get("scenarios", [])
+        for scenario in scenarios:
+            scenario_id = str(scenario.get("scenario_id", "")).strip()
+            class_label = str(scenario.get("expected_class", "")).strip()
+            symptoms = str(scenario.get("symptoms", "")).strip()
+            if not scenario_id or not class_label or not symptoms:
+                rejected += 1
+                continue
+            if scenario_id in self.incident_ids:
+                duplicate += 1
+                rejected += 1
+                continue
+            self.rows.append(
+                HistoricalIncident(
+                    incident_id=scenario_id,
+                    class_label=class_label,
+                    symptoms=symptoms,
+                    resolution="",
+                )
+            )
+            self.incident_ids.add(scenario_id)
             added += 1
         return {"added": added, "rejected": rejected, "duplicate": duplicate}
 
